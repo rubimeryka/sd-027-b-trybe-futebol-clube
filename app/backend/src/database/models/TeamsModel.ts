@@ -1,36 +1,21 @@
-import {
-  DataTypes,
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  CreationOptional,
-} from 'sequelize';
-import db from '.';
+import Teams from './Teams';
+import { ITeams } from '../../Interfaces/teams/Teams';
 
-class TeamsModel extends Model<InferAttributes<TeamsModel>,
-InferCreationAttributes<TeamsModel>> {
-  declare id: CreationOptional<number>;
+export default class TeamsModel {
+  private model = Teams;
 
-  declare teamName: string;
+  async findAll(): Promise<ITeams[]> {
+    const dbData = await this.model.findAll();
+    return dbData.map(({ id, teamName }) => (
+      { id, teamName }
+    ));
+  }
+
+  async findById(id: number): Promise<ITeams | null> {
+    const dbData = await this.model.findByPk(id);
+    if (dbData == null) return null;
+
+    const { teamName }: ITeams = dbData;
+    return { id, teamName };
+  }
 }
-
-TeamsModel.init({
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  teamName: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    field: 'team_name',
-  },
-}, {
-  sequelize: db,
-  modelName: 'teams',
-  underscored: true,
-  timestamps: false,
-});
-
-export default TeamsModel;
