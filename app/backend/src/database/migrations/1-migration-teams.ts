@@ -1,10 +1,10 @@
 import { Model, DataTypes, QueryInterface } from "sequelize";
-import { ITeam } from "../../Interfaces/teams/Teams";
+import { ITeams } from "../../Interfaces/teams/Teams";
 
 export default {
   up(queryInterface: QueryInterface) {
     return queryInterface.
-    createTable<Model<ITeam>>('teams',
+    createTable<Model<ITeams>>('teams',
     {
       id:{
         type: DataTypes.INTEGER,
