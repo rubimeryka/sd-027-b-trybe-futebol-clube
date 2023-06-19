@@ -14,24 +14,6 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testa times', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
   it('todos os times devem ser retornados', async function() {
     sinon.stub(TeamsModel, 'findAll').resolves(teams as any);
 

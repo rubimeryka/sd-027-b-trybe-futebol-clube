@@ -1,4 +1,4 @@
-import { IUser } from '../../Interfaces/users/Users';
+import IUser from '../../Interfaces/users/Users';
 import Users from './Users';
 import { IUserModel } from '../../Interfaces/users/IUsersModel';
 

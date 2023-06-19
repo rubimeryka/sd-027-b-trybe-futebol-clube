@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import UserModel from '../database/models/UserModel';
-import { ILogin, IUser } from '../Interfaces/users/Users';
+import IUser from '../Interfaces/users/Users';
+import ILogin from '../Interfaces/users/ILogin';
 import { IUserModel } from '../Interfaces/users/IUsersModel';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import JWT from '../utils/JWT';
