@@ -1,3 +1,5 @@
+import { ITeams } from '../teams/Teams';
+
 export default interface IMatches {
   id: number;
   homeTeamId: number;
@@ -5,4 +7,9 @@ export default interface IMatches {
   awayTeamId: number;
   awayTeamGoals: number;
   inProgress: boolean;
+}
+
+export interface IMatchTeams extends IMatches {
+  homeTeam?: Partial<ITeams>;
+  awayTeam?: Partial<ITeams>;
 }
