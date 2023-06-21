@@ -7,7 +7,7 @@ export default class UserController {
     private userService = new UserService(),
   ) { }
 
-  public async login(req: Request, res: Response): Promise<Response> {
+  async login(req: Request, res: Response): Promise<Response> {
     const serviceResponse = await this.userService.login(req.body);
 
     if (serviceResponse.status !== 'SUCCESSFUL') {

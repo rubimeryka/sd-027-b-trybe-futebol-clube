@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET as string;
+// import { verify } from 'jsonwebtoken';
+import JWT from '../utils/JWT';
 
 class Validations {
   static validateLogin(req: Request, res: Response, next: NextFunction): Response | void {
@@ -19,20 +18,20 @@ class Validations {
     next();
   }
 
-  static validateToken(req: Request, res: Response, next: NextFunction):
-  Response | void {
-    try {
-      const token = req.headers.authorization;
+  static async validateToken(req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> {
+    const token = req.headers.authorization;
 
-      if (!token) return res.status(401).json({ message: 'Token not found' });
+    if (!token) return res.status(401).json({ message: 'Token not found' });
 
-      const verifyToken = verify(token, JWT_SECRET);
-      res.locals.user = verifyToken;
+    const verifyToken = JWT.verify(token);
+    req.body.token = verifyToken;
 
-      next();
-    } catch (error) {
-      return res.status(401).json({ message: 'Token must be a valid token' });
+    if (verifyToken === 'Token must be a valid token') {
+      return res.status(401).json({ message: verifyToken });
     }
+
+    next();
   }
 }
 export default Validations;

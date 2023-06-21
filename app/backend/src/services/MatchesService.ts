@@ -1,3 +1,4 @@
+// import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import MatchModel from '../database/models/MatchModel';
 import IMatches from '../Interfaces/matches/Matches';
 
@@ -18,5 +19,18 @@ export default class MatchesService {
     const allMatches = await this.matchesModel.findAll();
 
     return allMatches;
+  }
+
+  async finishMatch(id: number) {
+    const match = await this.matchesModel.finishMatch(id);
+    return { message: 'Finished', data: match };
+  }
+
+  async updateMatch(id: number, body:{
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  }) {
+    const updatedMatch = await this.matchesModel.updateMatch(id, body);
+    return { message: 'Updated', data: updatedMatch };
   }
 }
