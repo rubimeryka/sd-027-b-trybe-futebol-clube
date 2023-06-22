@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import MatchesController from '../controllers/MatchesController';
-import Validations from '../validations';
+import Validations from '../middleware';
 
 const matchesController = new MatchesController();
 
@@ -19,11 +19,11 @@ matchRouter.patch(
   (req: Request, res: Response) => matchesController.finishMatch(req, res),
 );
 
-// matchRouter.post(
-//   '/',
-//   Validations.validateToken,
-
-//   (req: Request, res: Response) => matchesController.create(req, res),
-// );
+matchRouter.post(
+  '/',
+  Validations.validateToken,
+  Validations.validateMatch,
+  (req: Request, res: Response) => matchesController.createMatch(req, res),
+);
 
 export default matchRouter;

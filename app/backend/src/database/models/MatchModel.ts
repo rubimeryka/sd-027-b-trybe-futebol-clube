@@ -33,6 +33,7 @@ export default class MatchModel {
       { inProgress: false },
       { where: { id } },
     );
+
     return matchUpdated;
   }
 
@@ -41,6 +42,24 @@ export default class MatchModel {
     awayTeamGoals: number,
   }) {
     const matchUpdated = await this.model.update({ ...body }, { where: { id } });
+
     return matchUpdated;
+  }
+
+  async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) {
+    const data = await this.model.create({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    });
+
+    return data;
   }
 }

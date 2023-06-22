@@ -33,4 +33,21 @@ export default class MatchesService {
     const updatedMatch = await this.matchesModel.updateMatch(id, body);
     return { message: 'Updated', data: updatedMatch };
   }
+
+  async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) {
+    const match = await this.matchesModel
+      .createMatch(
+        homeTeamId,
+        awayTeamId,
+        homeTeamGoals,
+        awayTeamGoals,
+      );
+
+    return { message: 'SUCCESSFUL', data: match };
+  }
 }
