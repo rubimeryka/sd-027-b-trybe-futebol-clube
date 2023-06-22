@@ -24,11 +24,11 @@ class Validations {
 
     if (!token) return res.status(401).json({ message: 'Token not found' });
 
-    const verifyToken = JWT.verify(token);
-    req.body.token = verifyToken;
+    const verifyUser = JWT.verify(token);
+    req.body.user = verifyUser;
 
-    if (verifyToken === 'Token must be a valid token') {
-      return res.status(401).json({ message: verifyToken });
+    if (verifyUser === 'Token must be a valid token') {
+      return res.status(401).json({ message: verifyUser });
     }
 
     next();

@@ -16,7 +16,7 @@ userRouter.get(
   '/role',
   Validations.validateToken,
   (req: Request, res: Response) => {
-    res.status(200).json({ role: res.locals.user.role });
+    res.status(200).json({ role: req.body.user.role });
   },
 );
 

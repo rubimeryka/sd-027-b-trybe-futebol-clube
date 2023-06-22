@@ -5,8 +5,8 @@ import { IUserModel } from '../../Interfaces/users/IUsersModel';
 export default class UserModel implements Partial<IUserModel> {
   private model = Users;
 
-  async findById(id: IUser['id']): Promise<IUser | null> {
-    const user = await this.model.findByPk(id);
+  async findById(id: number): Promise<IUser | null> {
+    const user = await this.model.findOne({ where: { id } });
 
     if (!user) return null;
 

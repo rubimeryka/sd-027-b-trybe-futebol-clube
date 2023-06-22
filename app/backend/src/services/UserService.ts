@@ -25,9 +25,9 @@ export default class UserService {
       return { status: 'UNAUTHORIZED', data: this.errorMessage };
     }
 
-    const { email } = user as IUser;
+    const { email, role, id } = user as IUser;
 
-    const token = this.jwtService.sign({ email });
+    const token = this.jwtService.sign({ email, role, id });
 
     return { status: 'SUCCESSFUL', data: { token } };
   }
