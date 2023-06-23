@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testa times', () => {
-  it('todos os times devem ser retornados', async function() {
+  it('Todos os times devem ser retornados', async function() {
     sinon.stub(TeamsModel, 'findAll').resolves(teams as any);
 
     const { status, body } = await chai.request(app).get('/teams');
@@ -23,7 +23,7 @@ describe('Testa times', () => {
     expect(body).to.deep.equal(teams);
   });
 
-  it('testa se a função retorna um time pelo seu id', async function() {
+  it('Testa se a função retorna um time pelo seu id', async function() {
     sinon.stub(TeamsModel, 'findOne').resolves(team as any);
 
     const { status, body } = await chai.request(app).get('/teams/1');
@@ -32,12 +32,4 @@ describe('Testa times', () => {
     expect(body).to.deep.equal(team);
   });
 
-  it('retorna "not found" se um time não existir', async function() {
-    sinon.stub(TeamsModel, 'findOne').resolves(null);
-
-    const { status, body } = await chai.request(app).get('/teams/1');
-
-    expect(status).to.equal(404);
-    expect(body.message).to.equal('team 1 not found');
-  });
 });

@@ -6,7 +6,7 @@ import {
   dbUserWrongPassword
 } from './mocks/Users.mock';
 import JWT from '../utils/JWT';
-import Validations from '../validations/Validations';
+import Validations from '../middleware';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import User from '../database/models/Users';
@@ -18,16 +18,18 @@ const { expect } = chai;
 describe('Testa login', () => {
   it('Testa se é possível fazer login', async () => {
     sinon.stub(User, 'findOne').resolves(dbUserMock as any);
-    sinon.stub(JWT, 'sign').returns('validToken');
+    sinon.stub(JWT, 'sign').returns('valid');
     sinon.stub(Validations, 'validateLogin').returns();
+    
     const { status, body } = await chai.request(app)
       .post('/login')
       .send({
         email: 'user@email.com',
         password: '123456'
       });
-    expect(status).to.be.equal(200);
-    expect(body).to.have.key('token');
+    
+      expect(status).to.be.equal(200);
+      expect(body).to.have.key('token');
   });
 
   it('Testa se retorna erro caso a senha não seja inserida', async function () {
@@ -48,22 +50,42 @@ describe('Testa login', () => {
         email: 'user.email.com',
         password: '123456'
       });
+    
     expect(status).to.be.equal(401);
     expect(body.message).to.be.equal('Invalid email or password');
   });
 
   it('Testa se retorna erro caso a senha seja inválida', async () => {
     sinon.stub(User, 'findOne').resolves(dbUserWrongPassword as any);
+    
     sinon.stub(JWT, 'sign').returns('validToken');
+    
     sinon.stub(Validations, 'validateLogin').returns();
+    
     const { status, body } = await chai.request(app)
       .post('/login')
       .send({
         email: 'user@email.com',
         password: '#@%'
       });
+    
     expect(status).to.be.equal(401);
     expect(body.message).to.be.equal('Invalid email or password');
   });
+  
+  it('Return userLogin faill with email and password required', async () => {
+		const result = await chai.request(app).post('/login').send({
+			"password": "secret_admin2",
+		});
+		
+		expect(result.status).to.be.deep.equal(400);
+  });
+
+  it('Return /login/role with fail', async () => {
+		const result = await chai.request(app).get('/login/role').send();
+				
+		expect(result.status).to.be.deep.equal(401);
+  });
+  
   afterEach(sinon.restore);
 });
