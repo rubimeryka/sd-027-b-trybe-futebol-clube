@@ -59,8 +59,8 @@ export default class LeaderBoard {
   }
 
   // saldo de gols
-  static calculateGoalsBalance(aTeamScore: number, bTeamScore: number, balance: number): number {
-    const currentGoalsBalance = balance + (aTeamScore - bTeamScore);
+  static calculateGoalsBalance(goalsFavor: number, goalsOwn: number, balance: number): number {
+    const currentGoalsBalance = balance + (goalsFavor - goalsOwn);
 
     return currentGoalsBalance;
   }
@@ -68,7 +68,7 @@ export default class LeaderBoard {
   static efficiency(points: number, games: number): number {
     const calculateEfficiency = (points / (games * 3)) * 100;
 
-    return Number(calculateEfficiency.toFixed(2));
+    return Number((calculateEfficiency.toFixed(2)));
   }
 
   // ordena resultados
@@ -122,19 +122,11 @@ export default class LeaderBoard {
     const leaderboard: ILeaderBoard[] = [];
 
     empty.forEach((team) => {
-      const updatedTeam = { ...team };
+      let updatedTeam = { ...team };
 
       matchs.forEach((match) => {
         if (match.homeTeam?.teamName === team.name) {
-          this.updateTeamStatistics(updatedTeam, match);
-        }
-
-        if (match.awayTeam?.teamName === team.name) {
-          this.updateTeamStatistics(updatedTeam, {
-            ...match,
-            homeTeamGoals: match.awayTeamGoals,
-            awayTeamGoals: match.homeTeamGoals,
-          });
+          updatedTeam = this.updateTeamStatistics(updatedTeam, match);
         }
       });
 
@@ -149,7 +141,7 @@ export default class LeaderBoard {
   }
 
   static teamsAway(empty: ILeaderBoard[], matchs: IMatchTeams[]): ILeaderBoard[] {
-    const updatedMatchs: IMatchTeams[] = matchs.map((match) => ({
+    const updatedMatches: IMatchTeams[] = matchs.map((match) => ({
       ...match,
       homeTeam: match.awayTeam,
       awayTeam: match.homeTeam,
@@ -157,7 +149,7 @@ export default class LeaderBoard {
       awayTeamGoals: match.homeTeamGoals,
     }));
 
-    return this.updateLeaderboard(empty, updatedMatchs);
+    return this.updateLeaderboard(empty, updatedMatches);
   }
 
   static total(home: ILeaderBoard[], away: ILeaderBoard[]): ILeaderBoard[] {

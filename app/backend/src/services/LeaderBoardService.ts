@@ -9,7 +9,7 @@ export default class LeaderboardService {
     private teamModel: TeamModel,
   ) { }
 
-  private async getLeaderboardByType(type: 'Home' | 'Away'): Promise<ILeaderBoard[]> {
+  async getLeaderboardByType(type: 'Home' | 'Away'): Promise<ILeaderBoard[]> {
     const matches = await this.matchModel.findAll();
     const teams = await this.teamModel.findAll();
     const leaderboardEmpty = await leaderBoard.getAllTeams(teams);
